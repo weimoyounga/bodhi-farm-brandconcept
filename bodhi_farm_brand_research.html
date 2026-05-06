@@ -1,0 +1,414 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, sans-serif); }
+  .report { padding: 0 0 2rem; }
+  .section { margin-bottom: 2rem; }
+  .section-label { font-size: 11px; letter-spacing: 2px; color: var(--color-text-tertiary); text-transform: uppercase; margin-bottom: 6px; padding-left: 2px; }
+  .section-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; }
+  .card-icon { font-size: 20px; margin-bottom: 8px; color: var(--color-text-secondary); }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .card-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+  .card.accent-green { border-left: 2px solid #639922; }
+  .card.accent-amber { border-left: 2px solid #BA7517; }
+  .card.accent-teal { border-left: 2px solid #1D9E75; }
+  .card.accent-gray { border-left: 2px solid #888780; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 400; }
+  .pill-green { background: #EAF3DE; color: #27500A; }
+  .pill-amber { background: #FAEEDA; color: #633806; }
+  .pill-teal { background: #E1F5EE; color: #085041; }
+  .pill-gray { background: #F1EFE8; color: #444441; }
+  .pill-coral { background: #FAECE7; color: #712B13; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .persona-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; }
+  .persona-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .persona-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; flex-shrink: 0; }
+  .persona-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .persona-sub { font-size: 11px; color: var(--color-text-secondary); }
+  .persona-needs { font-size: 11px; color: var(--color-text-secondary); line-height: 1.7; }
+  .dna-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .dna-block { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+  .dna-label { font-size: 10px; letter-spacing: 1.5px; color: var(--color-text-tertiary); margin-bottom: 6px; }
+  .dna-value { font-size: 13px; color: var(--color-text-primary); line-height: 1.6; }
+  .keyword-section { margin-top: 10px; }
+  .keyword-group { margin-bottom: 12px; }
+  .keyword-group-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 5px; font-weight: 500; }
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content:''; position:absolute; left:6px; top:4px; bottom:4px; width:0.5px; background: var(--color-border-secondary); }
+  .tl-item { position: relative; margin-bottom: 14px; }
+  .tl-dot { position:absolute; left:-17px; top:4px; width:8px; height:8px; border-radius:50%; background:#639922; border:2px solid var(--color-background-primary); }
+  .tl-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .tl-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; margin-top: 2px; }
+  .color-swatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .swatch { width: 40px; height: 40px; border-radius: 8px; }
+  .swatch-label { font-size: 10px; color: var(--color-text-secondary); margin-top: 3px; text-align: center; }
+  .swatch-wrap { display: flex; flex-direction: column; align-items: center; }
+  .quote-block { border-left: 2px solid #639922; padding: 8px 14px; background: #EAF3DE; border-radius: 0 8px 8px 0; margin: 10px 0; }
+  .quote-text { font-size: 13px; color: #27500A; line-height: 1.7; font-style: italic; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .compare-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; }
+  .compare-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 6px; }
+  .compare-item { font-size: 12px; color: var(--color-text-primary); padding: 3px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .compare-item:last-child { border-bottom: none; }
+  .dot-good::before { content:'＋ '; color: #639922; }
+  .dot-diff::before { content:'◆ '; color: #BA7517; }
+  .section-divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+</style>
+
+<div class="report">
+  <h2 class="sr-only">菩提慈耕農園品牌設計前調查報告</h2>
+
+  <!-- 01 品牌基因 -->
+  <div class="section">
+    <div class="section-label">01</div>
+    <div class="section-title">品牌基因 Brand DNA</div>
+
+    <div class="dna-row">
+      <div class="dna-block">
+        <div class="dna-label">品牌使命</div>
+        <div class="dna-value">讓人重新感受土地的生命力，透過食物連結自然節奏</div>
+      </div>
+      <div class="dna-block">
+        <div class="dna-label">核心差異</div>
+        <div class="dna-value">謝博士有機土壤改良工法，以玉米稈回饋土地的循環農法</div>
+      </div>
+      <div class="dna-block">
+        <div class="dna-label">品牌隸屬</div>
+        <div class="dna-value">中台好時莊文旅系列，農場為體驗場域延伸</div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="quote-block">
+        <div class="quote-text">「我只是用最簡單省錢但要花一點時間的方法——種玉米，讓土地自己回饋土地。」</div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="dna-label" style="font-size:11px;letter-spacing:1.5px;color:var(--color-text-tertiary);margin-bottom:8px">品牌個性光譜</div>
+      <div class="card-grid">
+        <div class="card accent-green">
+          <div class="card-title">謙遜 × 智慧</div>
+          <div class="card-desc">不炫技，用時間換健康，師法自然而非對抗自然</div>
+        </div>
+        <div class="card accent-green">
+          <div class="card-title">溫暖 × 生活感</div>
+          <div class="card-desc">農遊、食農教育，農場是可親近的場所而非高端精緻農業</div>
+        </div>
+        <div class="card accent-amber">
+          <div class="card-title">科學 × 本土</div>
+          <div class="card-desc">謝博士背書的土壤知識，但用在地、日常的語言傳達</div>
+        </div>
+        <div class="card accent-teal">
+          <div class="card-title">循環 × 永續</div>
+          <div class="card-desc">有機廢料回饋土壤，四季節奏指導農作，無毒無化肥</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 02 品牌故事時間軸 -->
+  <div class="section">
+    <div class="section-label">02</div>
+    <div class="section-title">品牌故事軸線 Brand Story</div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#BA7517"></div>
+        <div class="tl-title">土壤問題</div>
+        <div class="tl-desc">慣行農業造成土壤板結、缺乏有機質，作物難以健康生長</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#EF9F27"></div>
+        <div class="tl-title">謝博士工法介入</div>
+        <div class="tl-desc">種玉米 → 收成後保留玉米稈 → 曳引機打碎混入土壤 → 加入分解菌種 → 2–4週後形成土壤團粒</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#639922"></div>
+        <div class="tl-title">健康土壤誕生</div>
+        <div class="tl-desc">鬆軟、透氣、保水的土壤質地，讓蔬菜在無毒環境中生長</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#1D9E75"></div>
+        <div class="tl-title">菩提慈耕農園</div>
+        <div class="tl-desc">以健康土地為基礎，提供無毒蔬菜、食農教育、農田體驗、文化旅遊</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#085041"></div>
+        <div class="tl-title">中台好時莊文旅生態</div>
+        <div class="tl-desc">農園作為文旅系列一環，串聯在地文化、飲食與土地體驗</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 03 目標受眾 -->
+  <div class="section">
+    <div class="section-label">03</div>
+    <div class="section-title">目標受眾 Target Audience</div>
+
+    <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:#EAF3DE;color:#27500A">親</div>
+          <div>
+            <div class="persona-name">親子家庭</div>
+            <div class="persona-sub">30–45歲 · 週末出遊族</div>
+          </div>
+        </div>
+        <div class="persona-needs">希望孩子認識食物從哪來。重視安全食材，願意為體驗付費。Logo需要：<strong style="color:#27500A">友善、活潑、有故事性</strong></div>
+        <div class="pill-row">
+          <span class="pill pill-green">食農教育</span>
+          <span class="pill pill-green">農遊體驗</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:#FAEEDA;color:#633806">旅</div>
+          <div>
+            <div class="persona-name">文旅旅客</div>
+            <div class="persona-sub">25–55歲 · 中台灣慢旅</div>
+          </div>
+        </div>
+        <div class="persona-needs">跟著中台好時莊系列來的旅客，重視在地感與文化深度。Logo需要：<strong style="color:#633806">有地域感、有品味、不土氣</strong></div>
+        <div class="pill-row">
+          <span class="pill pill-amber">文化旅遊</span>
+          <span class="pill pill-amber">在地體驗</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:#E1F5EE;color:#085041">健</div>
+          <div>
+            <div class="persona-name">健康意識消費者</div>
+            <div class="persona-sub">28–50歲 · 主動搜尋無毒食材</div>
+          </div>
+        </div>
+        <div class="persona-needs">主動尋找有機農場直購，關注農法是否真實可信。Logo需要：<strong style="color:#085041">可信賴感、科學感、真實不浮誇</strong></div>
+        <div class="pill-row">
+          <span class="pill pill-teal">無毒蔬菜</span>
+          <span class="pill pill-teal">直購訂閱</span>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:#F1EFE8;color:#444441">學</div>
+          <div>
+            <div class="persona-name">教育單位</div>
+            <div class="persona-sub">學校、NGO · 食農課程採購</div>
+          </div>
+        </div>
+        <div class="persona-needs">尋找可合作的食農教育基地，需要官方認可感與課程設計能力。Logo需要：<strong style="color:#444441">專業感、可信度、機構背書</strong></div>
+        <div class="pill-row">
+          <span class="pill pill-gray">農田教育</span>
+          <span class="pill pill-gray">課程合作</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 04 視覺語言系統 -->
+  <div class="section">
+    <div class="section-label">04</div>
+    <div class="section-title">視覺語言系統 Visual Language</div>
+
+    <div class="two-col">
+      <div>
+        <div class="dna-label" style="font-size:11px;letter-spacing:1.5px;color:var(--color-text-tertiary);margin-bottom:8px">核心符號庫</div>
+        <div class="card-grid" style="grid-template-columns:1fr">
+          <div class="card accent-green">
+            <div class="card-title">玉米稈 / 土壤斷面</div>
+            <div class="card-desc">農場獨特工法的視覺具象化，差異化最強的符號</div>
+          </div>
+          <div class="card accent-green">
+            <div class="card-title">葉脈 / 植物生長</div>
+            <div class="card-desc">生命力、有機、循環，通用農業符號但需差異化處理</div>
+          </div>
+          <div class="card accent-amber">
+            <div class="card-title">農人剪影</div>
+            <div class="card-desc">人文溫度，「耕」字的具象化，適合文旅受眾</div>
+          </div>
+          <div class="card accent-teal">
+            <div class="card-title">四季 / 圓弧節奏</div>
+            <div class="card-desc">「與四季同生息」的視覺化，循環感強</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="dna-label" style="font-size:11px;letter-spacing:1.5px;color:var(--color-text-tertiary);margin-bottom:8px">色彩系統建議</div>
+        <div class="card" style="padding:14px">
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">主色 Primary</div>
+          <div class="color-swatch-row">
+            <div class="swatch-wrap"><div class="swatch" style="background:#27500A"></div><div class="swatch-label">深林綠</div></div>
+            <div class="swatch-wrap"><div class="swatch" style="background:#639922"></div><div class="swatch-label">嫩芽綠</div></div>
+            <div class="swatch-wrap"><div class="swatch" style="background:#97C459"></div><div class="swatch-label">草葉綠</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin:10px 0 8px">輔色 Secondary</div>
+          <div class="color-swatch-row">
+            <div class="swatch-wrap"><div class="swatch" style="background:#BA7517"></div><div class="swatch-label">麥穗琥珀</div></div>
+            <div class="swatch-wrap"><div class="swatch" style="background:#633806"></div><div class="swatch-label">泥土棕</div></div>
+            <div class="swatch-wrap"><div class="swatch" style="background:#D3D1C7"></div><div class="swatch-label">石灰白灰</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin:10px 0 8px">點綴 Accent</div>
+          <div class="color-swatch-row">
+            <div class="swatch-wrap"><div class="swatch" style="background:#E6F1FB"></div><div class="swatch-label">天空藍</div></div>
+            <div class="swatch-wrap"><div class="swatch" style="background:#FCDE5A"></div><div class="swatch-label">陽光黃</div></div>
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <div class="dna-label" style="font-size:11px;letter-spacing:1.5px;color:var(--color-text-tertiary);margin-bottom:8px">字型風格建議</div>
+          <div class="card">
+            <div class="card-title" style="font-family:serif;font-size:15px;margin-bottom:4px">宋體／明體系列</div>
+            <div class="card-desc">傳遞歷史根基感，呼應「慈耕」二字的文化底蘊</div>
+            <div style="margin-top:8px;padding-top:8px;border-top:0.5px solid var(--color-border-tertiary)">
+              <div class="card-title" style="font-size:13px;letter-spacing:1px;margin-bottom:4px">Bodhi Farm — 無襯線現代感</div>
+              <div class="card-desc">英文搭配幾何感無襯線字型，對比中文傳達現代農業視角</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="dna-label" style="font-size:11px;letter-spacing:1.5px;color:var(--color-text-tertiary);margin-bottom:8px">視覺禁忌 — 要避免的方向</div>
+      <div class="card-grid">
+        <div class="card" style="border-left:2px solid #E24B4A">
+          <div class="card-title" style="color:#A32D2D">過度宗教感</div>
+          <div class="card-desc">菩提葉雖為核心符號，但蓮花、佛手、梵文等元素會失焦</div>
+        </div>
+        <div class="card" style="border-left:2px solid #E24B4A">
+          <div class="card-title" style="color:#A32D2D">工廠農業感</div>
+          <div class="card-desc">過於飽和的亮綠、化學感的配色會讓受眾不信任有機聲稱</div>
+        </div>
+        <div class="card" style="border-left:2px solid #E24B4A">
+          <div class="card-title" style="color:#A32D2D">過度精緻奢華</div>
+          <div class="card-desc">農場定位是親近土地，不是高端精品，避免金色、大理石紋</div>
+        </div>
+        <div class="card" style="border-left:2px solid #E24B4A">
+          <div class="card-title" style="color:#A32D2D">卡通吉祥物化</div>
+          <div class="card-desc">降低品牌成熟度，且難以延伸至教育與文旅場景</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 05 競品參照 -->
+  <div class="section">
+    <div class="section-label">05</div>
+    <div class="section-title">競品參照 Competitive Reference</div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="compare-title">值得學習的方向</div>
+        <div class="compare-item dot-good">無毒農場的「插畫風徽章Logo」清晰、有溫度</div>
+        <div class="compare-item dot-good">日本「道の駅」系列的地域感設計語言</div>
+        <div class="compare-item dot-good">台灣有機農業場域的手感印刷美學</div>
+        <div class="compare-item dot-good">里山倡議相關品牌的自然系色彩</div>
+      </div>
+      <div class="compare-card">
+        <div class="compare-title">菩提慈耕的差異化機會</div>
+        <div class="compare-item dot-diff">土壤改良工法故事——台灣農場中極少見的品牌核心</div>
+        <div class="compare-item dot-diff">文旅農場雙屬性——比純農場有更強的文化敘事</div>
+        <div class="compare-item dot-diff">中部地域感——有別於花東、宜蘭的農場品牌集中區</div>
+        <div class="compare-item dot-diff">謝博士人物背書——可視覺化的知識型農業品牌</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 06 關鍵字庫 -->
+  <div class="section">
+    <div class="section-label">06</div>
+    <div class="section-title">品牌關鍵字庫 Keyword Bank</div>
+
+    <div class="keyword-group">
+      <div class="keyword-group-label">感官與情感</div>
+      <div class="pill-row">
+        <span class="pill pill-green">呼吸</span>
+        <span class="pill pill-green">鬆軟</span>
+        <span class="pill pill-green">生息</span>
+        <span class="pill pill-green">節氣</span>
+        <span class="pill pill-green">芬芳</span>
+        <span class="pill pill-green">溫潤</span>
+        <span class="pill pill-green">慢活</span>
+        <span class="pill pill-green">靜好</span>
+      </div>
+    </div>
+
+    <div class="keyword-group">
+      <div class="keyword-group-label">農法與土壤</div>
+      <div class="pill-row">
+        <span class="pill pill-amber">土壤團粒</span>
+        <span class="pill pill-amber">有機循環</span>
+        <span class="pill pill-amber">玉米稈</span>
+        <span class="pill pill-amber">菌種分解</span>
+        <span class="pill pill-amber">保水透氣</span>
+        <span class="pill pill-amber">無化肥</span>
+        <span class="pill pill-amber">無毒</span>
+        <span class="pill pill-amber">改良</span>
+      </div>
+    </div>
+
+    <div class="keyword-group">
+      <div class="keyword-group-label">體驗與場域</div>
+      <div class="pill-row">
+        <span class="pill pill-teal">食農教育</span>
+        <span class="pill pill-teal">農田教育</span>
+        <span class="pill pill-teal">五感農遊</span>
+        <span class="pill pill-teal">文化旅遊</span>
+        <span class="pill pill-teal">親子體驗</span>
+        <span class="pill pill-teal">農場直購</span>
+        <span class="pill pill-teal">四季採摘</span>
+      </div>
+    </div>
+
+    <div class="keyword-group">
+      <div class="keyword-group-label">哲學與精神</div>
+      <div class="pill-row">
+        <span class="pill pill-coral">覺知</span>
+        <span class="pill pill-coral">共生</span>
+        <span class="pill pill-coral">慈悲</span>
+        <span class="pill pill-coral">耕耘</span>
+        <span class="pill pill-coral">回饋</span>
+        <span class="pill pill-coral">等待</span>
+        <span class="pill pill-coral">信任土地</span>
+        <span class="pill pill-coral">師法自然</span>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <div class="dna-label" style="font-size:11px;letter-spacing:1.5px;color:var(--color-text-tertiary);margin-bottom:8px">Logo設計前的三個核心提問</div>
+      <div class="card-grid">
+        <div class="card accent-green">
+          <div class="card-title">這個Logo能單獨傳達「土地」嗎？</div>
+          <div class="card-desc">不看文字，只看圖標，受眾應能感受到農業、自然、有機的氛圍</div>
+        </div>
+        <div class="card accent-amber">
+          <div class="card-title">能與母品牌中台好時莊共存嗎？</div>
+          <div class="card-desc">需考量品牌家族的視覺一致性，又保有農場的獨立識別</div>
+        </div>
+        <div class="card accent-teal">
+          <div class="card-title">縮小至16px仍清晰嗎？</div>
+          <div class="card-desc">農場Logo需應用於包裝、名片、手機app、農袋等多種尺寸</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
